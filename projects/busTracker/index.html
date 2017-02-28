@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery.parseXML demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+  
+<h2>Choose a bus stop near Lane Tech!</h2>
+
+<select name="Stops" id="stopChoice">
+  <option value="8417">Western (Northbound)</option>
+  <option value="8195">Western (Southbound)</option>
+  <option value="12527">Addison (Eastbound)</option>
+  <option value="12569">Addison (Westbound)</option>
+</select>
+
+<button type="button" onclick="myFunction();" >Find Busses</button>
+
+<br>
+
+<div id = "output"></div>
+ 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script>
+      
+      function myFunction() {
+        $(function() {
+          
+          $("#output").html("");
+          
+          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+            
+            var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getpredictions";
+          
+          $.ajax({
+              url: apiPassThruUrl,
+              dataType: "json",
+              method: 'GET',
+              data: {"apiEndpoint": apiEndpoint,
+                      "key" : "R8ddnuEYzJvYppDLAFpRWbh9e",
+                      "stpid" : $("#stopChoice").val(),
+                      "format":"json"}
+            }).done (function (data) {
+              console.log(data);
+              $("#output").append("<br><h2>Predictions</h2>");
+             
+              $.each(data["bustime-response"]["prd"], function(i,v) {
+                  $("#output").append("<h3>Stop Name: " + v.stpnm + "</h3><h3>Direction: " + v.rtdir + "</h3><h3>Prediction time: " + v.prdtm + "</h3>" + 
+                  "<h3>Distance Away: " + v.dstp + " feet</h3><h3>Vehicle Id: " + v.vid + "</h3><br>");
+              });
+
+            });
+            
+        });
+      }
+      
+</script>
+ 
+</body>
+</html>
