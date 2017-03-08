@@ -13,7 +13,16 @@
     <style>
       #text{border-radius: 25px; border: 2px solid black; background-color: #1aa3ff; width: 800px;}
       
+      body {
+          padding: 20px;
+          background: #fafafa;
+          position: relative;
+      }
+      
     </style>
+    <link rel="manifest" href="./manifest.json">
+      <meta name="msapplication-TileImage" content="https://www.google.com/logos/doodles/2017/37th-anniversary-of-komodo-national-park-6197054943526912.4-hp.jpg">
+      <meta name="msapplication-TileColor" content="#2F3BA2">
 </head>
 <body>
 
@@ -44,7 +53,6 @@
 
       <button type="button" onclick="myFunction();" >Find Busses</button>
       </center>
-      
 
      <center><div id = "output"></div></center>
 
@@ -53,6 +61,12 @@
 </div>
  
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      
+      <script>
+        document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
+        this.MaterialProgress.setProgress(44);
+        });
+      </script>
       <script>
       
       function myFunction() {
