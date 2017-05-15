@@ -2,7 +2,7 @@
   "name": "Bus Tracker",
   "short_name": "Bus Tracker",
   "icons": [{
-    "src": "https://www.google.com/logos/doodles/2017/37th-anniversary-of-komodo-national-park-6197054943526912.4-hp.jpg",
+    "src": "cta.jpg",
       "sizes": "128x128",
       "type": "image/png"
     }],
