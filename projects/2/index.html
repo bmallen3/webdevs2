@@ -120,7 +120,6 @@
                   " feet</h3><h3>Vehicle Id: " + v.vid + "</h3></div><br>";
                   $("#output").append(html);
               });
-
             });
             
         });
@@ -148,6 +147,13 @@
       }
       
       function addStoredData(){
+          var select = document.getElementById("stopChoice");
+          var length = select.options.length;
+          console.log(length);
+          for (i = 4; i < length; i++) {
+            select.options[i] = null;
+          }
+
           x = document.getElementById("stopChoice");
           option = document.createElement("option");
           db.stops
@@ -178,6 +184,7 @@
       function removeStop(sName){
         db.stops.delete(sName);
         showStoredStops();
+        addStoredData();
       }
     </script>
   </body>
