@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Canvas Text Example</title>
+  <style>
+    canvas {
+      border: #333 10px solid;
+      background-image: url("groceryStore.jpg");
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="1600px" height="800px"></canvas>
+
+  <script>
+    var canvas = document.querySelector("#myCanvas");
+    var context = canvas.getContext("2d");
+    var y = 0;
+    var myImage = new Image();
+    myImage.src = "boy.png";
+    var donut = new Image();
+    donut.src = "Long-John-Chocolate.png";
+    var broccoli = new Image();
+    broccoli.src = "broccoli.png";
+    var lives = 3;
+    var score = 0;
+    var level = 1;
+    var donutX = 1600;
+    var donutY = 100;
+    var broccoliX = 1600;
+    var broccoliY = 700;
+    var pause = false;
+    var nextLevel = 20;
+    var gameOver = false;
+
+    myImage.addEventListener("load", loadImage, false);
+
+    function loadImage(e) {
+      context.drawImage(myImage, 100, y);
+    }
+
+    donut.addEventListener("load", loadDonut, false);
+
+    function loadDonut(e) {
+      context.drawImage(donut, donutX, donutY);
+    }
+
+    broccoli.addEventListener("load", loadBroccoli, false);
+
+    function loadBroccoli(e) {
+      context.drawImage(broccoli, broccoliX, broccoliY);
+    }
+
+    context.font = "bold 32px Helvetica, Arial, sans-serif";
+    context.fillText("Lives left: " + lives, 500, 50);
+    context.fillText("Score: " + score, 900, 50);
+    context.fillText("Level: " + level, 1300, 50);
+
+    window.addEventListener("keydown", dealWithKeyboard, false);
+    //window.addEventListener("keyup", dealWithKeyboard, false);
+
+    function dealWithKeyboard(e) {
+      switch (e.keyCode) {
+        case 38:
+          if (y != 0) {
+            y -= 10;
+          }
+          break;
+        case 40:
+          if (y != 640) {
+            y += 10;
+          }
+          break;
+        case 32:
+          pause = !pause;
+          console.log(pause);
+          if (!pause){
+            animate();
+          }
+          break;
+      }
+      e.preventDefault();
+    }
+
+    function animate() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(myImage, 100, y);
+
+        context.font = "bold 32px Helvetica, Arial, sans-serif";
+        context.fillText("Lives left: " + lives, 500, 50);
+        context.fillText("Score: " + score, 900, 50);
+        context.fillText("Level: " + level, 1300, 50);
+        
+        context.drawImage(donut, donutX, donutY);
+        if (donutX <= 100) {
+          donutX = 1600;
+          donutY = Math.floor(Math.random() * 600) + 100;
+        }
+        else {
+          donutX -= (3 * level);
+        }
+        
+        context.drawImage(broccoli, broccoliX, broccoliY);
+        if (broccoliX <= 100) {
+          broccoliX = 1600;
+          broccoliY = Math.floor(Math.random() * 600) + 100;
+        }
+        else {
+          broccoliX -= (3 * level);
+        }
+        
+        if (donutX >= 100 && donutX <= myImage.width + 100 && donutY >= y && donutY <= myImage.height + y){
+            score += 5;
+            donutX = 1600;
+            donutY = Math.floor(Math.random() * 600) + 100;
+        }
+        
+        if (broccoliX >= 100 && broccoliX <= myImage.width + 100 && broccoliY >= y && broccoliY <= myImage.height + y){
+            lives -= 1;
+            broccoliX = 1600;
+            broccoliY = Math.floor(Math.random() * 600) + 100;
+        }
+        
+        if (lives == 0){
+          gameOver = true;
+        }
+        
+        if (score == nextLevel){
+          level += 1;
+          nextLevel += 20;
+        }
+          
+        if (!pause && !gameOver){
+          requestAnimationFrame(animate);
+        }
+        else if (gameOver){
+          over();
+        }
+      }
+      
+      function over(){
+        console.log("game over");
+        context.font = "bold 64px Helvetica, Arial, sans-serif";
+        context.fillText("Game Over", 700, 300);
+        context.font = "bold 32px Helvetica, Arial, sans-serif";
+        context.fillText("Refresh to Restart", 735, 340);
+        requestAnimationFrame(over);
+      }
+
+    animate();
+  </script>
+
+</body>
+
+</html>
